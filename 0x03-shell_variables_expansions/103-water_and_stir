@@ -1,2 +1,15 @@
 #!/bin/bash
-echo $(printf %0 $(($((5#$(echo $WATER | tr 'water' '01234'))) + $((5#'01234'))))) | tr '01234567' 'bestchol')
+
+water=$WATER
+stir=$STIR
+
+if [[ -n $water && -n $stir ]]; then
+    decimal_water=$(echo "ibase=water; $water" | bc)
+    decimal_stir=$(echo "ibase=stir; $stir" | bc)
+    sum_decimal=$((decimal_water + decimal_stir))
+    result=$(echo "obase=bestchol; $sum_decimal" | bc)
+    echo $result
+else
+    echo "Error: One or both of the environment variables WATER and STIR are not set."
+fi
+
